@@ -43,20 +43,55 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 /** @var object $router **/
-
 $router->get('/', 'Welcome::index');
 
 /*
 | -------------------------------------------------------------------
-| STUDENT INFORMATION PAGE ROUTES
-| -------------------------------------------------------------------   
-| Laboratory Activity: Routing, Controllers, Views, and Middleware
-| Author: Lance Adrian T. De Vero
-| Submitted to: Sir Ronald M. Marasigan
+| PREVIOUS STUDENT ACTIVITY ROUTES
+| -------------------------------------------------------------------
 */
+
 $router->get('/student', 'StudentController::index');
-$router->get('/student/profile', 'StudentController::profile')->middleware('StudentMiddleware');
+
+$router->get('/student/profile', 'StudentController::profile')
+        ->middleware('StudentMiddleware');
+
 $router->get('/student/grant-access', 'StudentController::grant_access');
+
 $router->get('/student/revoke-access', 'StudentController::revoke_access');
 
 $router->get('/users', 'UsersController::index');
+
+/*
+| -------------------------------------------------------------------
+| LAB 5 - AUTHENTICATION ROUTES
+| -------------------------------------------------------------------
+*/
+
+$router->get('/login', 'AuthController::login');
+$router->post('/login', 'AuthController::login');
+$router->get('/logout', 'AuthController::logout');
+
+/*
+| -------------------------------------------------------------------
+| LAB 5 - PROTECTED PRODUCT ROUTES
+| -------------------------------------------------------------------
+*/
+
+$router->get('/products', 'ProductController::index')
+        ->middleware('AuthMiddleware');
+
+$router->get('/products/create', 'ProductController::create')
+        ->middleware('AuthMiddleware');
+
+$router->post('/products/store', 'ProductController::store')
+        ->middleware('AuthMiddleware');
+
+$router->get('/products/edit/{id}', 'ProductController::edit')
+        ->middleware('AuthMiddleware');
+
+$router->post('/products/update/{id}', 'ProductController::update')
+        ->middleware('AuthMiddleware');
+
+$router->post('/products/delete/{id}', 'ProductController::delete')
+        ->middleware('AuthMiddleware');
