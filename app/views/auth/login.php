@@ -7,77 +7,172 @@
 
     <title>Merchant Login | KALAKAL 1521</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Pro:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
+        :root {
+            --ink: #2b1c11;
+            --ink-soft: #5c4530;
+            --text-accent: #5c3d22;
+
+            --parchment: #f1e3c3;
+            --parchment-deep: #e6d3a4;
+            --card: #fbf4de;
+
+            --navy: #1c2c3d;
+            --navy-deep: #101c28;
+
+            --brass: #b6852c;
+            --brass-light: #dcae57;
+            --rope: #8a6a41;
+
+            --seal: #8c2b23;
+
+            --low-bg: #fff0bf;
+            --low-ink: #805b00;
+            --empty-bg: #f7d4cf;
+            --empty-ink: #8c2f25;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Georgia, "Times New Roman", serif;
         }
 
         body {
+            position: relative;
+            overflow: hidden;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: #3f2d20;
-            background: #efe2c6;
+            color: var(--ink);
+            background: var(--parchment);
+            font-family: 'Crimson Pro', Georgia, "Times New Roman", serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        button, input {
+            font-family: inherit;
+        }
+
+        ::selection {
+            background: var(--brass-light);
+            color: var(--navy-deep);
+        }
+
+        .harbor-compass {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: min(70vw, 620px);
+            height: min(70vw, 620px);
+            transform: translate(-50%, -50%);
+            color: var(--rope);
+            opacity: 0.06;
+            pointer-events: none;
         }
 
         .login-card {
+            position: relative;
+            z-index: 1;
             width: 100%;
             max-width: 420px;
             padding: 40px;
-            background: #fffaf0;
-            border-top: 7px solid #8b4513;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(64, 42, 25, 0.18);
+            background: var(--card);
+            border: 1px solid var(--parchment-deep);
+            border-top: 6px solid transparent;
+            border-image: linear-gradient(90deg, var(--brass-light), var(--brass)) 1;
+            border-radius: 10px;
+            box-shadow: 0 18px 44px rgba(16, 28, 40, 0.22);
         }
 
         .logo {
-            width: 62px;
-            height: 62px;
+            width: 60px;
+            height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
-            border: 3px solid #d9b46d;
+            border: 3px solid var(--brass);
             border-radius: 50%;
-            background: #4a2c1b;
-            color: #e6c98f;
-            font-size: 30px;
-            font-weight: bold;
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+            color: var(--brass-light);
+        }
+
+        .logo svg {
+            width: 30px;
+            height: 30px;
         }
 
         h1 {
             margin-bottom: 8px;
-            color: #4a2c1b;
+            color: var(--navy);
+            font-family: 'IM Fell English', Georgia, serif;
+            font-weight: 400;
+            font-size: 27px;
             letter-spacing: 1px;
+        }
+
+        .rule {
+            width: 90px;
+            height: 8px;
+            margin-bottom: 16px;
+            opacity: .55;
+            background-image: repeating-linear-gradient(
+                -35deg,
+                var(--rope) 0px,
+                var(--rope) 2px,
+                transparent 2px,
+                transparent 5px
+            );
         }
 
         .subtitle {
             margin-bottom: 26px;
-            color: #705843;
+            color: var(--ink-soft);
+            font-style: italic;
             line-height: 1.5;
         }
 
         .message,
         .error {
-            padding: 13px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 13px 14px;
             margin-bottom: 20px;
-            border-radius: 8px;
+            border-radius: 4px;
             line-height: 1.4;
+            font-size: 14.5px;
+        }
+
+        .message svg,
+        .error svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
         }
 
         .message {
-            background: #fff0bf;
-            color: #795700;
+            color: var(--low-ink);
+            background: var(--low-bg);
+            border-left: 4px solid var(--low-ink);
         }
 
         .error {
-            background: #f7d4cf;
-            color: #8c2f25;
+            color: var(--empty-ink);
+            background: var(--empty-bg);
+            border-left: 4px solid var(--empty-ink);
         }
 
         .form-group {
@@ -87,24 +182,24 @@
         label {
             display: block;
             margin-bottom: 7px;
-            color: #4a2c1b;
-            font-weight: bold;
+            color: var(--navy);
+            font-weight: 600;
         }
 
         input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #cbb895;
-            border-radius: 8px;
+            border: 1px solid var(--parchment-deep);
+            border-radius: 6px;
             background: #fffdf8;
-            color: #3f2d20;
+            color: var(--ink);
             font-size: 16px;
         }
 
         input:focus {
             outline: none;
-            border-color: #8b4513;
-            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
+            border-color: var(--brass);
+            box-shadow: 0 0 0 3px rgba(182, 133, 44, 0.2);
         }
 
         /*
@@ -134,17 +229,17 @@
             justify-content: center;
             align-items: center;
             background: transparent;
-            color: #705843;
+            color: var(--ink-soft);
             cursor: pointer;
         }
 
         .toggle-password:hover {
-            background: rgba(139, 69, 19, 0.10);
-            color: #8b4513;
+            background: rgba(182, 133, 44, 0.14);
+            color: var(--brass);
         }
 
         .toggle-password:focus-visible {
-            outline: 2px solid #8b4513;
+            outline: 2px solid var(--brass);
             outline-offset: 2px;
         }
 
@@ -179,22 +274,36 @@
             width: 100%;
             padding: 13px;
             border: none;
-            border-radius: 8px;
-            background: #8b4513;
-            color: white;
+            border-radius: 6px;
+            background: linear-gradient(180deg, var(--brass-light), var(--brass));
+            color: #2b1c11;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 3px 8px rgba(43, 28, 17, .22);
+            transition: transform .15s ease, box-shadow .15s ease;
         }
 
-        .submit-button:hover {
-            background: #a55b25;
+        .submit-button:hover,
+        .submit-button:focus-visible {
+            transform: translateY(-1px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 5px 12px rgba(43, 28, 17, .3);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .submit-button:focus-visible {
+            outline: 2px solid var(--navy);
+            outline-offset: 2px;
         }
 
         .footer-note {
             margin-top: 22px;
-            color: #80664e;
+            color: var(--ink-soft);
             font-size: 13px;
+            font-style: italic;
             text-align: center;
         }
 
@@ -203,14 +312,38 @@
                 padding: 30px 24px;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .submit-button {
+                transition: none;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="login-card">
-        <div class="logo">K</div>
+    <svg class="harbor-compass" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+        <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="100" cy="100" r="72" fill="none" stroke="currentColor" stroke-width="1"/>
+        <path d="M100 6 L109 90 L100 100 L91 90 Z" fill="currentColor"/>
+        <path d="M100 194 L109 110 L100 100 L91 110 Z" fill="currentColor"/>
+        <path d="M6 100 L90 91 L100 100 L90 109 Z" fill="currentColor"/>
+        <path d="M194 100 L110 91 L100 100 L110 109 Z" fill="currentColor"/>
+        <circle cx="100" cy="100" r="4" fill="currentColor"/>
+    </svg>
 
-        <h1>KALAKAL 1521</h1>
+    <div class="login-card">
+        <div class="logo">
+            <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                <path d="M6 30 L42 30 L37 40 L11 40 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                <line x1="24" y1="30" x2="24" y2="6" stroke="currentColor" stroke-width="2"/>
+                <path d="M24 8 L38 22 L24 22 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M24 14 L12 22 L24 22 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <h1>Kalakal 1521</h1>
+        <div class="rule"></div>
 
         <p class="subtitle">
             Authorized merchants only. No stowaways.
@@ -218,13 +351,15 @@
 
         <?php if (isset($_GET['blocked'])): ?>
             <div class="message">
-                The harbor guards stopped you. Please sign in first.
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                <span>The harbor guards stopped you. Please sign in first.</span>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($error)): ?>
             <div class="error">
-                <?= htmlspecialchars($error) ?>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <span><?= htmlspecialchars($error) ?></span>
             </div>
         <?php endif; ?>
 
