@@ -95,3 +95,36 @@ $router->post('/products/update/{id}', 'ProductController::update')
 
 $router->post('/products/delete/{id}', 'ProductController::delete')
         ->middleware('AuthMiddleware');
+
+// Migration Routes
+$router->get('create-migration/{migration_class}', 'MigrationController::create_migration');
+$router->get('migrate', 'MigrationController::migrate');
+$router->get('rollback', 'MigrationController::rollback');
+$router->get('rollback-all', 'MigrationController::rollback_all');
+$router->get('refresh', 'MigrationController::refresh');
+$router->get('status', 'MigrationController::status');
+$router->get('/api/health', 'ApiHealthController::index');
+$router->post('/api/login', 'ApiAuthController::login');
+$router->get('/api/protected', 'ApiHealthController::index')
+    ->middleware('ApiAuthMiddleware');
+$router->get('/api/products', 'ApiProductController::index')
+    ->middleware('ApiAuthMiddleware');
+$router->post('/api/products', 'ApiProductController::store')
+    ->middleware('ApiAuthMiddleware');
+$router->get('/api/products/{id}', 'ApiProductController::show')
+    ->middleware('ApiAuthMiddleware');
+$router->put('/api/products/{id}', 'ApiProductController::update')
+    ->middleware('ApiAuthMiddleware');
+$router->delete('/api/products/{id}', 'ApiProductController::destroy')
+    ->middleware('ApiAuthMiddleware');
+$router->post('/api/logout', 'ApiAuthController::logout')
+    ->middleware('ApiAuthMiddleware');
+$router->post('/api/refresh', 'ApiAuthController::refresh');
+
+// OPTIONS routes for CORS preflight requests
+$router->options('/api/login', 'ApiAuthController::login');
+$router->options('/api/refresh', 'ApiAuthController::refresh');
+$router->options('/api/logout', 'ApiAuthController::logout');
+
+$router->options('/api/products', 'ApiProductController::index');
+$router->options('/api/products/{id}', 'ApiProductController::show');

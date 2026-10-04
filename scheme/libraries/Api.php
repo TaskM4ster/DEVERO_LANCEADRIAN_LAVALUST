@@ -525,10 +525,11 @@ class Api
         ];
 
         $refresh_payload = [
-            'sub'  => $user_id,
-            'type' => 'refresh',
-            'jti'  => bin2hex(random_bytes(16)),
-        ];
+    'sub' => $user_id,
+    'type' => 'refresh',
+    'jti' => bin2hex(random_bytes(16)),
+    'exp' => $now + $this->refresh_token_expiration
+];
 
         $access_token  = $this->encode_jwt($access_payload);
         $refresh_token = $this->encode_jwt($refresh_payload); // Raw for client
@@ -580,10 +581,22 @@ class Api
             $this->respond_error('Refresh token expired or revoked', 403);
         }
 
-        // Revoke old + rotate (best practice)
-        $this->revoke_refresh_token($refresh_token);
+        $user = $this->_lava->db
+    ->table('users')
+    ->where('id', $payload['sub'])
+    ->get();
 
-        $new_tokens = $this->issue_tokens(['id' => $payload['sub']]);
+if (!$user || (int) $user['is_active'] !== 1) {
+    $this->respond_error('Account is unavailable.', 401);
+}
+
+$this->revoke_refresh_token($refresh_token);
+
+$new_tokens = $this->issue_tokens([
+    'id' => $user['id'],
+    'role' => $user['role'],
+    'scopes' => ['read', 'write']
+]);
 
         $this->respond([
             'message' => 'Tokens refreshed successfully',

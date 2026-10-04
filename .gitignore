@@ -24,3 +24,8 @@ runtime/*
 
 # OS
 Thumbs.db
+
+node_modules/
+dist/
+.env.*
+!.env.example
