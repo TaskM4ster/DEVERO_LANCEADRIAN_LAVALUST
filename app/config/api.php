@@ -94,7 +94,10 @@ $config['refresh_token_key'] = getenv('REFRESH_TOKEN_KEY') ?: '';
 | already deployed.
 |
 */
-$config['allow_origin'] = getenv('FRONTEND_URL') ?: 'http://localhost:5173';
+$config['allow_origin'] = [
+    getenv('FRONTEND_URL') ?: 'http://localhost:5173',
+    'https://api-tester.marasigan.dev',
+];
 
 /*
 |--------------------------------------------------------------------------
